@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController  } from 'ionic-angular';
 
 /**
  * Generated class for the PartialPressurePage page.
@@ -22,11 +22,11 @@ export class PartialPressurePage {
   private lastCalcul: number = 0;
   private detailCalcul: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
-    
+    this.showToast("Test 4", 3000);
   }
   // ---------------------------------------------------------------------------------------------
   // EVENTS
@@ -46,7 +46,7 @@ export class PartialPressurePage {
       pourcent = this.convertPressureToPrct(this.calculPourcent(depth,partialPressure));
       this.dataForm[this.lblPourcent] = pourcent;
       this.lastCalcul = 1;
-      this.detailCalcul = "Explications:" + "\n1. Convertir la prof. en PAB : (Prof./10)+1\n2.Trouver la pression : PP/PAB\n3.Convertir la pression en % : Pres*100";
+      this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2.Trouver la pression : PP/PAB\n3.Convertir la pression en % : Pres*100";
     }else if(depth == 0 || !depth)
     {
       // For calcul depth
@@ -54,7 +54,7 @@ export class PartialPressurePage {
       depth = this.convertAmbPresToDepth(this.calculAmbPres(partialPressure,pourcent));
       this.dataForm[this.lblDepth] = depth;
       this.lastCalcul = 2
-      this.detailCalcul = "Explications:" + "\n1. Convertir le % en pression : %/100\n2.Trouver la PAB : PP/Pres\n3.Convertir la PAB en Prof. : (PAB-1)*10";
+      this.detailCalcul = "1. Convertir le % en pression : %/100\n2.Trouver la PAB : PP/Pres\n3.Convertir la PAB en Prof. : (PAB-1)*10";
     }else if(partialPressure == 0 || !partialPressure)
     {
       // For calcul partial pressure
@@ -63,14 +63,16 @@ export class PartialPressurePage {
       partialPressure = this.calculPartialPressure(pourcent,depth);
       this.dataForm[this.lblPartialpressure] = partialPressure;
       this.lastCalcul = 3
-      this.detailCalcul = "Explications:" + "\n1. Convertir la prof. en PAB : (Prof./10)+1\n2. Convertir le % en pression : %/100\n3.Trouver la Pp : Pres*PAB";
+      this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2. Convertir le % en pression : %/100\n3.Trouver la Pp : Pres*PAB";
     }
   }
   // Reset all
   resetAll()
   {
     this.lastCalcul = 0;
-    this.dataForm = null;
+    this.dataForm[this.lblDepth] = null;
+    this.dataForm[this.lblPartialpressure] = null;
+    this.dataForm[this.lblPourcent] = null;
   }
   // Reset calcul
   resetCalcul()
@@ -78,14 +80,25 @@ export class PartialPressurePage {
     switch(this.lastCalcul)
     {
       case 1:
-        this.dataForm[this.lblPourcent] = null;
+        this.dataForm[this.lblPourcent] =null;
+        break;
       case 2:
         this.dataForm[this.lblDepth] = null;
+        break;
       case 3:
         this.dataForm[this.lblPartialpressure] = null;
+        break;
       default:
-        this.dataForm = null;
+        this.resetAll();
     }
+  }
+  showToast(msg: string, dur: number) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: dur,
+      cssClass: 'toastError'
+    });
+    toast.present();
   }
   // ---------------------------------------------------------------------------------------------
 
