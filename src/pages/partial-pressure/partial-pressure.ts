@@ -38,51 +38,75 @@ export class PartialPressurePage {
     var depth: number = this.dataForm[this.lblDepth];
     var pourcent: number = this.dataForm[this.lblPourcent];
     var partialPressure: number = this.dataForm[this.lblPartialpressure];
-
-    if(pourcent == 0 || !pourcent)
+    if(pourcent > 100)
     {
-      console.log(depth);
-      if(depth != 0 && depth && partialPressure != 0 && partialPressure)
-      {
-        // For calcul % o2
-        pourcent = 0;
-        depth = this.convertDepthToAmbPres(depth);
-        pourcent = this.convertPressureToPrct(this.calculPourcent(depth,partialPressure));
-        this.dataForm[this.lblPourcent] = pourcent;
-        this.lastCalcul = 1;
-        this.detailCalcul = "1. Convertir la prof. en PAB :\n(Prof./10)+1\n2.Trouver la pression :\nPP/PAB\n3.Convertir la pression en % :\Pres*100";
-      }else
-      {
-        this.showToast("La profondeur et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
-      }
-    }else if(depth == 0 || !depth)
+      this.showToast("Calcul impossible", 5000, MyApp.getToastError());
+    }else
     {
-      if(pourcent != 0 && pourcent && partialPressure != 0 && partialPressure)
+      if(pourcent == 0 || !pourcent || this.lastCalcul == 1)
       {
-        // For calcul depth
-        pourcent = this.convertPrctToPressure(pourcent);
-        depth = this.convertAmbPresToDepth(this.calculAmbPres(partialPressure,pourcent));
-        this.dataForm[this.lblDepth] = depth;
-        this.lastCalcul = 2
-        this.detailCalcul = "1. Convertir le % en pression :\n%/100\n2.Trouver la PAB :\nPP/Pres\n3.Convertir la PAB en Prof. :\n(PAB-1)*10";
-      }else
+        console.log(depth);
+        if(depth != 0 && depth && partialPressure != 0 && partialPressure)
+        {
+          // For calcul % o2
+          pourcent = 0;
+          depth = this.convertDepthToAmbPres(depth);
+          pourcent = this.convertPressureToPrct(this.calculPourcent(depth,partialPressure));
+          this.dataForm[this.lblPourcent] = pourcent;
+          this.lastCalcul = 1;
+          this.detailCalcul = "1. Convertir la prof. en PAB :\n(Prof./10)+1\n2.Trouver la pression :\nPP/PAB\n3.Convertir la pression en % :\Pres*100";
+          if(pourcent < 17)
+          {
+            if(pourcent == 0)
+            {
+              this.showToast("Calcul impossible", 5000, MyApp.getToastError());
+            }else
+            {
+              this.showToast("O2 basse", 5000, MyApp.getToastWarning());
+            }
+            
+          }
+        }else
+        {
+          this.showToast("La profondeur et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
+        }
+      }else if(depth == 0 || !depth || this.lastCalcul == 2)
       {
-        this.showToast("Le pourcentage d'O2 et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
-      }
-    }else if(partialPressure == 0 || !partialPressure)
-    {
-      if(pourcent != 0 && pourcent && depth != 0 && depth)
+        if(pourcent != 0 && pourcent && partialPressure != 0 && partialPressure)
+        {
+          // For calcul depth
+          pourcent = this.convertPrctToPressure(pourcent);
+          depth = this.convertAmbPresToDepth(this.calculAmbPres(partialPressure,pourcent));
+          this.dataForm[this.lblDepth] = depth;
+          this.lastCalcul = 2
+          this.detailCalcul = "1. Convertir le % en pression :\n%/100\n2.Trouver la PAB :\nPP/Pres\n3.Convertir la PAB en Prof. :\n(PAB-1)*10";
+          if(depth == 0)
+          {
+            this.showToast("Calcul impossible", 5000, MyApp.getToastError());
+          }
+        }else
+        {
+          this.showToast("Le pourcentage d'O2 et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
+        }
+      }else if(partialPressure == 0 || !partialPressure || this.lastCalcul == 3)
       {
-        // For calcul partial pressure
-        pourcent = this.convertPrctToPressure(pourcent);
-        depth = this.convertDepthToAmbPres(depth);
-        partialPressure = this.calculPartialPressure(pourcent,depth);
-        this.dataForm[this.lblPartialpressure] = partialPressure;
-        this.lastCalcul = 3
-        this.detailCalcul = "1. Convertir la prof. en PAB :\n(Prof./10)+1\n2. Convertir le % en pression :\n%/100\n3.Trouver la Pp :\nPres*PAB";
-      }else
-      {
-        this.showToast("Le pourcentage d'O2 et la profondeur doivent être complétées", 5000, MyApp.getToastError());
+        if(pourcent != 0 && pourcent && depth != 0 && depth)
+        {
+          // For calcul partial pressure
+          pourcent = this.convertPrctToPressure(pourcent);
+          depth = this.convertDepthToAmbPres(depth);
+          partialPressure = this.calculPartialPressure(pourcent,depth);
+          this.dataForm[this.lblPartialpressure] = partialPressure;
+          this.lastCalcul = 3
+          this.detailCalcul = "1. Convertir la prof. en PAB :\n(Prof./10)+1\n2. Convertir le % en pression :\n%/100\n3.Trouver la Pp :\nPres*PAB";
+          if(partialPressure > 1.6)
+          {
+            this.showToast("PPO2 élevée", 5000, MyApp.getToastWarning());
+          }
+        }else
+        {
+          this.showToast("Le pourcentage d'O2 et la profondeur doivent être complétées", 5000, MyApp.getToastError());
+        }
       }
     }
   }
