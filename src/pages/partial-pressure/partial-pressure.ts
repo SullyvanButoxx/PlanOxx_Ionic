@@ -50,7 +50,7 @@ export class PartialPressurePage {
         pourcent = this.convertPressureToPrct(this.calculPourcent(depth,partialPressure));
         this.dataForm[this.lblPourcent] = pourcent;
         this.lastCalcul = 1;
-        this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2.Trouver la pression : PP/PAB\n3.Convertir la pression en % : Pres*100";
+        this.detailCalcul = "1. Convertir la prof. en PAB :\n(Prof./10)+1\n2.Trouver la pression :\nPP/PAB\n3.Convertir la pression en % :\Pres*100";
       }else
       {
         this.showToast("La profondeur et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
@@ -64,7 +64,7 @@ export class PartialPressurePage {
         depth = this.convertAmbPresToDepth(this.calculAmbPres(partialPressure,pourcent));
         this.dataForm[this.lblDepth] = depth;
         this.lastCalcul = 2
-        this.detailCalcul = "1. Convertir le % en pression : %/100\n2.Trouver la PAB : PP/Pres\n3.Convertir la PAB en Prof. : (PAB-1)*10";
+        this.detailCalcul = "1. Convertir le % en pression :\n%/100\n2.Trouver la PAB :\nPP/Pres\n3.Convertir la PAB en Prof. :\n(PAB-1)*10";
       }else
       {
         this.showToast("Le pourcentage d'O2 et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
@@ -79,7 +79,7 @@ export class PartialPressurePage {
         partialPressure = this.calculPartialPressure(pourcent,depth);
         this.dataForm[this.lblPartialpressure] = partialPressure;
         this.lastCalcul = 3
-        this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2. Convertir le % en pression : %/100\n3.Trouver la Pp : Pres*PAB";
+        this.detailCalcul = "1. Convertir la prof. en PAB :\n(Prof./10)+1\n2. Convertir le % en pression :\n%/100\n3.Trouver la Pp :\nPres*PAB";
       }else
       {
         this.showToast("Le pourcentage d'O2 et la profondeur doivent être complétées", 5000, MyApp.getToastError());
@@ -93,6 +93,7 @@ export class PartialPressurePage {
     this.dataForm[this.lblDepth] = null;
     this.dataForm[this.lblPartialpressure] = null;
     this.dataForm[this.lblPourcent] = null;
+    this.detailCalcul = null;
   }
   // Reset calcul
   resetCalcul()

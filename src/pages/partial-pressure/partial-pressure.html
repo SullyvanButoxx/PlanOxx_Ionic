@@ -5,9 +5,13 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>PartialPressure</ion-title>
+    <ion-title>Pression partielle</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (click)="resetAll()">
+          <ion-icon name="refresh"></ion-icon>
+        </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -26,19 +30,32 @@
           <ion-label floating>PPO2</ion-label><ion-input type="number" step="0.01" [(ngModel)]="dataForm.pp" name="pp"></ion-input>
         </ion-item>
       </ion-list>
-      <button ion-button (click)="resetCalcul()">Réinitialiser calcul</button>
-      <button ion-button (click)="resetAll()">Tout réinitialiser</button>
-      <button ion-button (click)="calculEmpty()">Calculer</button>
+      <ion-grid id="gridTwoButton">
+        <ion-row>
+          <ion-col col-12>
+            <button ion-button block (click)="resetCalcul()">Réinitialiser calcul</button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <button ion-button block (click)="calculEmpty()">Calculer</button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <ion-card id="cardDetail">
+              <ion-card-header>
+                Explications
+              </ion-card-header>
+              <ion-card-content>
+                <pre>{{ detailCalcul }}</pre>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
   </form>
-  <ion-card>
-    
-      <ion-card-header>
-        Explications
-      </ion-card-header>
-    
-      <ion-card-content>
-        <pre>{{ detailCalcul }}</pre>
-      </ion-card-content>
-    
-    </ion-card>
+  <ion-fab>
+      <button ion-fab color="primary"><ion-icon name="calculator"></ion-icon></button>
+  </ion-fab>
 </ion-content>
