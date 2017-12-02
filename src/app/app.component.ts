@@ -9,6 +9,10 @@ import { HomePage } from '../pages/home/home';
 })
 export class MyApp {
   rootPage:any = HomePage;
+  private static toastError: string = "toastError";
+  private static toastInfo: string = "toastInfo";
+  private static toastSuccess: string = "toastSuccess";
+  private static toastWarning: string = "toastWarning";
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
@@ -17,6 +21,28 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
     });
+  }
+
+  // Getter
+  // get toast error
+  public static getToastError()
+  {
+    return this.toastError;
+  }
+  // get toast info
+  public static getToastInfo()
+  {
+    return this.toastInfo;
+  }
+  // get toast success
+  public static getToastSuccess()
+  {
+    return this.toastSuccess;
+  }
+  // get toast warning
+  public static getToastWarning()
+  {
+    return this.toastWarning;
   }
 }
 

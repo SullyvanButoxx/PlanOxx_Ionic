@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController  } from 'ionic-angular';
+import { MyApp } from '../../app/app.component';
 
 /**
  * Generated class for the PartialPressurePage page.
@@ -26,7 +27,7 @@ export class PartialPressurePage {
   }
 
   ionViewDidLoad() {
-    this.showToast("Test 4", 3000);
+    
   }
   // ---------------------------------------------------------------------------------------------
   // EVENTS
@@ -40,30 +41,49 @@ export class PartialPressurePage {
 
     if(pourcent == 0 || !pourcent)
     {
-      // For calcul % o2
-      pourcent = 0;
-      depth = this.convertDepthToAmbPres(depth);
-      pourcent = this.convertPressureToPrct(this.calculPourcent(depth,partialPressure));
-      this.dataForm[this.lblPourcent] = pourcent;
-      this.lastCalcul = 1;
-      this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2.Trouver la pression : PP/PAB\n3.Convertir la pression en % : Pres*100";
+      console.log(depth);
+      if(depth != 0 && depth && partialPressure != 0 && partialPressure)
+      {
+        // For calcul % o2
+        pourcent = 0;
+        depth = this.convertDepthToAmbPres(depth);
+        pourcent = this.convertPressureToPrct(this.calculPourcent(depth,partialPressure));
+        this.dataForm[this.lblPourcent] = pourcent;
+        this.lastCalcul = 1;
+        this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2.Trouver la pression : PP/PAB\n3.Convertir la pression en % : Pres*100";
+      }else
+      {
+        this.showToast("La profondeur et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
+      }
     }else if(depth == 0 || !depth)
     {
-      // For calcul depth
-      pourcent = this.convertPrctToPressure(pourcent);
-      depth = this.convertAmbPresToDepth(this.calculAmbPres(partialPressure,pourcent));
-      this.dataForm[this.lblDepth] = depth;
-      this.lastCalcul = 2
-      this.detailCalcul = "1. Convertir le % en pression : %/100\n2.Trouver la PAB : PP/Pres\n3.Convertir la PAB en Prof. : (PAB-1)*10";
+      if(pourcent != 0 && pourcent && partialPressure != 0 && partialPressure)
+      {
+        // For calcul depth
+        pourcent = this.convertPrctToPressure(pourcent);
+        depth = this.convertAmbPresToDepth(this.calculAmbPres(partialPressure,pourcent));
+        this.dataForm[this.lblDepth] = depth;
+        this.lastCalcul = 2
+        this.detailCalcul = "1. Convertir le % en pression : %/100\n2.Trouver la PAB : PP/Pres\n3.Convertir la PAB en Prof. : (PAB-1)*10";
+      }else
+      {
+        this.showToast("Le pourcentage d'O2 et la PPO2 doivent être complétées", 5000, MyApp.getToastError());
+      }
     }else if(partialPressure == 0 || !partialPressure)
     {
-      // For calcul partial pressure
-      pourcent = this.convertPrctToPressure(pourcent);
-      depth = this.convertDepthToAmbPres(depth);
-      partialPressure = this.calculPartialPressure(pourcent,depth);
-      this.dataForm[this.lblPartialpressure] = partialPressure;
-      this.lastCalcul = 3
-      this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2. Convertir le % en pression : %/100\n3.Trouver la Pp : Pres*PAB";
+      if(pourcent != 0 && pourcent && depth != 0 && depth)
+      {
+        // For calcul partial pressure
+        pourcent = this.convertPrctToPressure(pourcent);
+        depth = this.convertDepthToAmbPres(depth);
+        partialPressure = this.calculPartialPressure(pourcent,depth);
+        this.dataForm[this.lblPartialpressure] = partialPressure;
+        this.lastCalcul = 3
+        this.detailCalcul = "1. Convertir la prof. en PAB : (Prof./10)+1\n2. Convertir le % en pression : %/100\n3.Trouver la Pp : Pres*PAB";
+      }else
+      {
+        this.showToast("Le pourcentage d'O2 et la profondeur doivent être complétées", 5000, MyApp.getToastError());
+      }
     }
   }
   // Reset all
@@ -92,11 +112,11 @@ export class PartialPressurePage {
         this.resetAll();
     }
   }
-  showToast(msg: string, dur: number) {
+  showToast(msg: string, dur: number, type: string) {
     let toast = this.toastCtrl.create({
       message: msg,
       duration: dur,
-      cssClass: 'toastError'
+      cssClass: type
     });
     toast.present();
   }
