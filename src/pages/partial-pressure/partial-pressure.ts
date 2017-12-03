@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController  } from 'ionic-angular';
+import { NavController, ToastController  } from 'ionic-angular';
 import { MyApp } from '../../app/app.component';
 
 /**
@@ -9,7 +9,6 @@ import { MyApp } from '../../app/app.component';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-partial-pressure',
   templateUrl: 'partial-pressure.html',
@@ -23,7 +22,7 @@ export class PartialPressurePage {
   private lastCalcul: number = 0;
   private detailCalcul: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
