@@ -24,10 +24,6 @@ export class PartialPressurePage {
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController) {
   }
-
-  ionViewDidLoad() {
-    
-  }
   // ---------------------------------------------------------------------------------------------
   // EVENTS
   // ---------------------------------------------------------------------------------------------

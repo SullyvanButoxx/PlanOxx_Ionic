@@ -8,12 +8,14 @@ import { MyApp } from './app.component';
 // Pages
 import { HomePage } from '../pages/home/home';
 import { PartialPressurePage } from '../pages/partial-pressure/partial-pressure';
+import { ConsumptionPage } from '../pages/consumption/consumption';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    PartialPressurePage
+    PartialPressurePage,
+    ConsumptionPage
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,8 @@ import { PartialPressurePage } from '../pages/partial-pressure/partial-pressure'
   entryComponents: [
     MyApp,
     HomePage,
-    PartialPressurePage
+    PartialPressurePage,
+    ConsumptionPage
   ],
   providers: [
     StatusBar,
